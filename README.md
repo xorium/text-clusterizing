@@ -25,3 +25,8 @@ python data_import.py
 ```bash
 python clusterize.py
 ```
+
+## Экспорт данных в JSON файл из БД
+```bash
+python export.py
+```
