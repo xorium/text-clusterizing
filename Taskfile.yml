@@ -1,0 +1,19 @@
+# https://taskfile.dev
+
+version: '3'
+
+dotenv: ['.env', '{{.HOME}}/.env']
+
+tasks:
+  vectorizer-build:
+    desc: Сборка Docker образа модели-векторизатора (https://weaviate.io/developers/weaviate/model-providers/transformers/embeddings-custom-image)
+    cmds:
+      - docker build 
+        -f e5-large-instruct.Dockerfile
+        -t e5-large-instruct
+        .
+  
+  run-db:
+    desc: Запуск векторной БД для хранения embedding'ов
+    cmds:
+      - docker compose up -d

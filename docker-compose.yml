@@ -1,0 +1,41 @@
+version: "3.7"
+
+name: vector-db
+
+volumes:
+  weaviate_data:
+    driver: local
+
+services:
+  weaviate:
+    command:
+    - --host
+    - 0.0.0.0
+    - --port
+    - '8084'
+    - --scheme
+    - http
+    image: cr.weaviate.io/semitechnologies/weaviate:1.27.0
+    ports:
+    - 8084:8084
+    - 50051:50051
+    volumes:
+    - weaviate_data:/var/lib/weaviate
+    restart: on-failure:0
+    environment:
+      TRANSFORMERS_INFERENCE_API: 'http://t2v-transformers:8080'
+      QUERY_DEFAULTS_LIMIT: 25
+      AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED: 'true'
+      PERSISTENCE_DATA_PATH: '/var/lib/weaviate'
+      DEFAULT_VECTORIZER_MODULE: 'text2vec-transformers'
+      ENABLE_MODULES: 'text2vec-transformers'
+      CLUSTER_HOSTNAME: 'node1'
+  
+  # сервис для векторизации текста
+  # после запуска можно проверить: curl localhost:9095/vectors -H 'Content-Type: application/json' -d '{"text": "Привет, мир!"}'
+  t2v-transformers:
+    image: e5-large-instruct:latest
+    environment:
+      ENABLE_CUDA: 0  # Set to 1 to enable
+    ports:
+      - "9095:8080"  # Add this line to expose the container
