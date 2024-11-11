@@ -16,7 +16,7 @@ exported_data = []
 # Итерация по документам в коллекции и добавление в список
 for doc in client.collections.get(collection_name).iterator(include_vector=True):
     document = {
-        "text": doc.properties['call_transcription'],  # Замените на имя нужного поля
+        "text": doc.properties['call_transcription'],
         "vector": doc.vector['call_transcription_vector']
     }
     exported_data.append(document)
