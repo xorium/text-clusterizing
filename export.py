@@ -23,6 +23,6 @@ for doc in client.collections.get(collection_name).iterator(include_vector=True)
 
 # Сохранение в JSON-файл
 with open("calls_collection.json", "w", encoding="utf-8") as f:
-    json.dump(exported_data, f, ensure_ascii=False, indent=4)
+    json.dump(exported_data, f, ensure_ascii=False)
 
 client.close()
